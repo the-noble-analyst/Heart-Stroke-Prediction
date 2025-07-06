@@ -1,4 +1,4 @@
-# 🫀 Heart Disease Prediction App
+#Heart Disease Prediction App
 
 A machine learning web application built with Streamlit that predicts a patient's risk of heart disease based on health parameters.
 
