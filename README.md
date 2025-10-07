@@ -34,7 +34,7 @@ A machine learning web application built with Streamlit that predicts a patient'
 
 3. **Deployment**:
    - Saved trained KNN model and scaler using `joblib`.
-   - Built a Streamlit app to collect input and make predictions with AI chatbot integration.
+   - Built a Streamlit app to collect input and make predictions with personal AI chatbot assistent for recommendations and educate the user.
    - App ensures proper feature ordering and scaling for inference.
    - 
 
