@@ -18,6 +18,7 @@ A machine learning web application built with Streamlit that predicts a patient'
 ## ⚙️ Tech Stack
 - Python (Pandas, NumPy, Scikit-learn, Seaborn)
 - Streamlit (for web UI)
+- Together AI api key for AI chatbot integration
 - Joblib (for saving model, scaler, and feature schema)
 
 ## 🛠 How it Works
@@ -33,8 +34,9 @@ A machine learning web application built with Streamlit that predicts a patient'
 
 3. **Deployment**:
    - Saved trained KNN model and scaler using `joblib`.
-   - Built a Streamlit app to collect input and make predictions.
+   - Built a Streamlit app to collect input and make predictions with AI chatbot integration.
    - App ensures proper feature ordering and scaling for inference.
+   - 
 
 ## 📦 How to Run
 
