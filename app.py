@@ -13,7 +13,7 @@ st.set_page_config(
     page_title="HeartAlert - AI Heart Health Assistant", 
     page_icon="❤️", 
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 # -------------------------
@@ -53,23 +53,34 @@ st.markdown("""
         animation: pulse 2s infinite;
     }
     
-    /* Title styling */
-    .main-title {
-        text-align: center;
-        color: white;
-        font-size: 3.5rem;
-        font-weight: 800;
-        margin: 1rem 0;
-        text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-        animation: fadeInDown 1s ease-in-out;
+    /* AI Chat Button */
+    .ai-chat-button {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 9999;
+        animation: bounce 2s infinite;
     }
     
-    .subtitle {
-        text-align: center;
-        color: #e0e7ff;
-        font-size: 1.3rem;
-        margin-bottom: 2rem;
-        animation: fadeInDown 1.2s ease-in-out;
+    .ai-chat-button button {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+        cursor: pointer;
+        box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .ai-chat-button button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 12px 35px rgba(239, 68, 68, 0.7);
     }
     
     /* Animations */
@@ -90,6 +101,18 @@ st.markdown("""
         }
         50% {
             transform: scale(1.05);
+        }
+    }
+    
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-10px);
+        }
+        60% {
+            transform: translateY(-5px);
         }
     }
     
@@ -215,24 +238,24 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
     }
     
-    .info-box h3, .info-box h4 {
-        color: #1e40af;
-        margin-top: 0;
-        font-size: 1.2rem;
+    /* Quick question buttons */
+    .quick-question {
+        background: white;
+        border: 2px solid #667eea;
+        border-radius: 10px;
+        padding: 0.8rem 1.2rem;
+        margin: 0.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-block;
+        color: #667eea;
+        font-weight: 600;
     }
     
-    .info-box p, .info-box ul, .info-box li {
-        color: #1e3a8a;
-        line-height: 1.8;
-    }
-    
-    /* Sidebar */
-    [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
-    }
-    
-    [data-testid="stSidebar"] * {
-        color: white !important;
+    .quick-question:hover {
+        background: #667eea;
+        color: white;
+        transform: translateY(-2px);
     }
     
     /* Hide streamlit branding */
@@ -348,7 +371,7 @@ ST Slope: {user_data['st_slope']}"""
     # Chat History
     if len(chat_history) > 0:
         pdf.add_page()
-        pdf.chapter_title('CONSULTATION CONVERSATION')
+        pdf.chapter_title('AI CONSULTATION CONVERSATION')
         for msg in chat_history:
             if msg['role'] == 'user':
                 pdf.set_font('Arial', 'B', 10)
@@ -395,32 +418,55 @@ if "prediction_made" not in st.session_state:
 if "user_data" not in st.session_state:
     st.session_state["user_data"] = {}
 
-# -------------------------
-# Header with Logo Placeholder
-# -------------------------
-st.markdown('<h1 class="main-title">❤️ HeartAlert</h1>', unsafe_allow_html=True)
-st.markdown('<p class="subtitle">Your AI-Powered Heart Health Companion</p>', unsafe_allow_html=True)
+if "show_chat_modal" not in st.session_state:
+    st.session_state["show_chat_modal"] = False
 
 # -------------------------
-# Sidebar for Chat & Info
+# Header with Logo
 # -------------------------
-with st.sidebar:
-    st.markdown("### 💬 AI Health Assistant")
-    st.info("""
-    **Ask me anything about:**
-    - Heart health concerns
-    - Understanding your test results
-    - Lifestyle modifications
-    - Risk factors
-    - Preventive measures
+try:
+    st.image("logo.png", use_column_width=False, width=350)
+except:
+    st.markdown('<h1 style="text-align: center; color: white; font-size: 3.5rem; font-weight: 800; margin: 1rem 0; text-shadow: 2px 2px 8px rgba(0,0,0,0.3);">❤️ HeartAlert</h1>', unsafe_allow_html=True)
+    st.markdown('<p style="text-align: center; color: #e0e7ff; font-size: 1.3rem; margin-bottom: 2rem;">Your AI-Powered Heart Health Companion</p>', unsafe_allow_html=True)
+
+# -------------------------
+# AI Chat Button (Floating)
+# -------------------------
+col_float1, col_float2 = st.columns([5, 1])
+with col_float2:
+    if st.button("❤️\n💬", key="ai_chat_float", help="Ask AI"):
+        st.session_state["show_chat_modal"] = not st.session_state["show_chat_modal"]
+
+# -------------------------
+# AI Chat Modal
+# -------------------------
+if st.session_state["show_chat_modal"]:
+    st.markdown("---")
+    st.markdown('<p class="section-header">💬 AI Health Assistant</p>', unsafe_allow_html=True)
     
-    I'm here to help 24/7! 🤖
-    """)
+    # Quick Questions
+    st.markdown("### 🔥 Quick Questions")
+    
+    quick_questions = [
+        "What are the warning signs of a heart attack?",
+        "How can I lower my cholesterol naturally?",
+        "What does high blood pressure mean?",
+        "How does this AI prediction work?",
+        "What lifestyle changes can improve heart health?",
+        "What do my test results mean?",
+        "When should I see a cardiologist?",
+        "How can I prevent heart disease?"
+    ]
+    
+    cols = st.columns(2)
+    for idx, question in enumerate(quick_questions):
+        with cols[idx % 2]:
+            if st.button(f"❓ {question}", key=f"quick_q_{idx}", use_container_width=True):
+                st.session_state["messages"].append({"role": "user", "content": question})
+                st.rerun()
     
     st.markdown("---")
-    
-    # Chat Interface in Sidebar
-    st.markdown("### Chat with HeartAlert AI")
     
     # Display chat messages
     for msg in st.session_state["messages"]:
@@ -432,7 +478,7 @@ with st.sidebar:
                 st.markdown(msg["content"])
     
     # Chat input
-    if user_input := st.chat_input("Ask about heart health..."):
+    if user_input := st.chat_input("Ask me anything about heart health..."):
         st.session_state["messages"].append({"role": "user", "content": user_input})
         
         with st.chat_message("user", avatar="👤"):
@@ -441,10 +487,10 @@ with st.sidebar:
         with st.chat_message("assistant", avatar="❤️"):
             with st.spinner("Thinking..."):
                 try:
-                    # Prepare context-aware prompt
                     system_message = """You are HeartAlert, a professional and caring heart health AI assistant. 
                     Provide evidence-based, supportive, and actionable health guidance. 
-                    Be empathetic but clear. If the user asks about specific symptoms or medical advice, 
+                    Be empathetic but clear. Keep responses concise and well-formatted.
+                    If the user asks about specific symptoms or medical advice, 
                     always remind them to consult a healthcare professional."""
                     
                     messages = [{"role": "system", "content": system_message}] + st.session_state["messages"]
@@ -458,21 +504,16 @@ with st.sidebar:
                     ai_reply = response.choices[0].message.content.strip()
                     st.session_state["messages"].append({"role": "assistant", "content": ai_reply})
                     st.markdown(ai_reply)
+                    st.rerun()
                 except Exception as e:
                     st.error(f"⚠️ Chat error: {e}")
     
+    # Close button
+    if st.button("✖️ Close Chat", use_container_width=True):
+        st.session_state["show_chat_modal"] = False
+        st.rerun()
+    
     st.markdown("---")
-    st.markdown("### About HeartAlert")
-    st.markdown("""
-    **HeartAlert** uses advanced AI to assess heart disease risk and provide personalized recommendations.
-    
-    ⚕️ **Professional Grade**  
-    🤖 **AI-Powered Analysis**  
-    📊 **Evidence-Based**  
-    📄 **Downloadable Reports**
-    
-    **⚠️ Disclaimer:** This is NOT a substitute for professional medical advice.
-    """)
 
 # -------------------------
 # Main Assessment Form
@@ -620,38 +661,36 @@ if analyze_btn:
                 - Symptoms: {symptoms}
                 - Risk Assessment: {'HIGH RISK' if prediction == 1 else 'LOW RISK'}
 
-                Provide 4-5 specific, actionable health recommendations in a clear, organized format:
-                1. Immediate actions needed (if high risk) or preventive measures (if low risk)
-                2. Dietary modifications specific to their metrics
-                3. Exercise recommendations appropriate for their age and condition
-                4. Stress management and lifestyle tips
-                5. Medical follow-up suggestions
+                Provide 4-5 specific, actionable health recommendations in clear sections:
+                1. Immediate Actions (if high risk) or Preventive Measures (if low risk)
+                2. Dietary Recommendations
+                3. Exercise Guidelines
+                4. Lifestyle Modifications
+                5. Medical Follow-up
 
-                Be empathetic, encouraging, and professional. Use clear headings for each recommendation.
+                Be empathetic, encouraging, and professional. Use simple headings without asterisks.
                 """
 
                 try:
                     response = client.chat.completions.create(
                         model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
                         messages=[
-                            {"role": "system", "content": "You are HeartAlert, a professional heart health AI assistant. Provide clear, well-structured recommendations with proper headings and bullet points."},
+                            {"role": "system", "content": "You are HeartAlert AI. Provide clear, well-structured health recommendations. Use simple numbered sections without markdown symbols."},
                             {"role": "user", "content": prompt}
                         ],
                         temperature=0.7,
                         max_tokens=700
                     )
                     tips = response.choices[0].message.content.strip()
-                    st.session_state["tips"] = tips
+                    # Remove all markdown symbols
+                    tips_clean = tips.replace('**', '').replace('*', '').replace('#', '')
+                    st.session_state["tips"] = tips_clean
 
                     st.markdown(f"""
                     <div class="info-box">
-                    {tips.replace('**', '')}
+                    {tips_clean}
                     </div>
                     """, unsafe_allow_html=True)
-
-                    # Add to chat history only once
-                    if len(st.session_state["messages"]) == 0 or st.session_state["messages"][-1]["content"] != tips:
-                        st.session_state["messages"].append({"role": "assistant", "content": f"Based on your assessment, here are personalized recommendations:\n\n{tips}"})
 
                 except Exception as e:
                     st.error(f"Error generating recommendations: {e}")
@@ -665,7 +704,7 @@ if st.session_state["prediction_made"]:
     col_report1, col_report2, col_report3 = st.columns([1, 2, 1])
     
     with col_report2:
-        if st.button("📄 Download Comprehensive Report (PDF)", use_container_width=True):
+        if st.button("📄 Download Complete Report (PDF)", use_container_width=True):
             with st.spinner("📝 Generating your comprehensive health report..."):
                 try:
                     pdf_bytes = generate_pdf_report(
@@ -684,7 +723,7 @@ if st.session_state["prediction_made"]:
                         use_container_width=True
                     )
                     
-                    st.success("✅ Report generated successfully! Click the button above to download.")
+                    st.success("✅ Report generated successfully! This includes your assessment, AI recommendations, and complete chat history.")
                     
                 except Exception as e:
                     st.error(f"Error generating report: {e}")
