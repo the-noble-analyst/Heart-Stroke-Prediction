@@ -10,7 +10,7 @@ from fpdf import FPDF
 # Page Config
 # -------------------------
 st.set_page_config(
-    page_title="Heartly - AI Heart Health Assistant", 
+    page_title="HeartAlert - AI Heart Health Assistant", 
     page_icon="❤️", 
     layout="wide",
     initial_sidebar_state="expanded"
@@ -21,10 +21,36 @@ st.set_page_config(
 # -------------------------
 st.markdown("""
 <style>
-    /* Main background and theme */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
+    
+    * {
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    /* Main background */
     .main {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 2rem;
+        padding: 1rem;
+    }
+    
+    /* Remove default padding */
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        max-width: 1400px;
+    }
+    
+    /* Logo container */
+    .logo-container {
+        text-align: center;
+        margin-bottom: 2rem;
+        animation: fadeInDown 1s ease-in-out;
+    }
+    
+    .logo-container img {
+        max-width: 350px;
+        filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+        animation: pulse 2s infinite;
     }
     
     /* Title styling */
@@ -33,33 +59,98 @@ st.markdown("""
         color: white;
         font-size: 3.5rem;
         font-weight: 800;
-        margin-bottom: 0.5rem;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        margin: 1rem 0;
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        animation: fadeInDown 1s ease-in-out;
     }
     
     .subtitle {
         text-align: center;
         color: #e0e7ff;
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         margin-bottom: 2rem;
+        animation: fadeInDown 1.2s ease-in-out;
+    }
+    
+    /* Animations */
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+    }
+    
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
     }
     
     /* Card styling */
     .stApp > div > div {
         background: white;
-        border-radius: 20px;
-        padding: 2rem;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        border-radius: 25px;
+        padding: 2.5rem;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        animation: slideInLeft 0.8s ease-out;
     }
     
-    /* Input field styling */
+    /* Section headers */
+    .section-header {
+        color: #667eea;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 2rem 0 1.5rem 0;
+        padding-left: 15px;
+        border-left: 5px solid #667eea;
+        animation: slideInLeft 0.6s ease-out;
+    }
+    
+    /* Input styling */
     .stTextInput > div > div > input,
     .stNumberInput > div > div > input,
-    .stSelectbox > div > div > select {
-        border-radius: 10px;
+    .stSelectbox > div > div > select,
+    .stTextArea > div > div > textarea {
+        border-radius: 12px;
         border: 2px solid #e5e7eb;
-        padding: 0.75rem;
+        padding: 0.75rem 1rem;
         font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #f9fafb;
+    }
+    
+    .stTextInput > div > div > input:focus,
+    .stNumberInput > div > div > input:focus,
+    .stSelectbox > div > div > select:focus,
+    .stTextArea > div > div > textarea:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        background: white;
+    }
+    
+    /* Labels */
+    label {
+        font-weight: 600;
+        color: #374151;
+        font-size: 0.95rem;
     }
     
     /* Button styling */
@@ -67,53 +158,90 @@ st.markdown("""
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         border: none;
-        border-radius: 12px;
-        padding: 1rem 2rem;
-        font-size: 1.1rem;
-        font-weight: 600;
+        border-radius: 15px;
+        padding: 1.2rem 2.5rem;
+        font-size: 1.2rem;
+        font-weight: 700;
         width: 100%;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        transition: all 0.4s ease;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
     
     .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-    }
-    
-    /* Section headers */
-    h2, h3 {
-        color: #1f2937;
-        font-weight: 700;
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
     }
     
     /* Chat messages */
     .stChatMessage {
         border-radius: 15px;
-        padding: 1rem;
-        margin: 0.5rem 0;
+        padding: 1.2rem;
+        margin: 0.8rem 0;
+        animation: slideInLeft 0.5s ease-out;
     }
     
     /* Success/Error boxes */
-    .stSuccess, .stError {
-        border-radius: 12px;
+    .stSuccess {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border-radius: 15px;
         padding: 1.5rem;
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         font-weight: 600;
+        border: none;
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
     }
     
-    /* Sidebar styling */
-    .css-1d391kg {
-        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+    .stError, .stWarning {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border: none;
+        box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
     }
     
     /* Info boxes */
     .info-box {
-        background: #f0f9ff;
-        border-left: 4px solid #3b82f6;
-        padding: 1rem;
-        border-radius: 8px;
-        margin: 1rem 0;
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        border-left: 5px solid #3b82f6;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin: 1.5rem 0;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
+    }
+    
+    .info-box h3, .info-box h4 {
+        color: #1e40af;
+        margin-top: 0;
+        font-size: 1.2rem;
+    }
+    
+    .info-box p, .info-box ul, .info-box li {
+        color: #1e3a8a;
+        line-height: 1.8;
+    }
+    
+    /* Sidebar */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    [data-testid="stSidebar"] * {
+        color: white !important;
+    }
+    
+    /* Hide streamlit branding */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    
+    /* Slider styling */
+    .stSlider > div > div > div {
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -139,114 +267,119 @@ client = Together(api_key=TOGETHER_API_KEY)
 # -------------------------
 # PDF Report Generation
 # -------------------------
-class HeartlyReport(FPDF):
+class HeartAlertReport(FPDF):
     def header(self):
-        self.set_font('Arial', 'B', 20)
+        self.set_font('Arial', 'B', 24)
         self.set_text_color(102, 126, 234)
-        self.cell(0, 10, 'Heartly', 0, 1, 'C')
-        self.set_font('Arial', 'I', 12)
+        self.cell(0, 12, 'HeartAlert', 0, 1, 'C')
+        self.set_font('Arial', 'I', 11)
         self.set_text_color(100, 100, 100)
-        self.cell(0, 10, 'AI-Powered Heart Health Assessment Report', 0, 1, 'C')
-        self.ln(5)
+        self.cell(0, 8, 'AI-Powered Heart Health Assessment Report', 0, 1, 'C')
+        self.ln(8)
         
     def footer(self):
         self.set_y(-15)
         self.set_font('Arial', 'I', 8)
         self.set_text_color(150, 150, 150)
-        self.cell(0, 10, f'Generated by Heartly - Page {self.page_no()}', 0, 0, 'C')
+        self.cell(0, 10, f'Generated by HeartAlert - Page {self.page_no()}', 0, 0, 'C')
+    
+    def chapter_title(self, title):
+        self.set_font('Arial', 'B', 14)
+        self.set_fill_color(102, 126, 234)
+        self.set_text_color(255, 255, 255)
+        self.cell(0, 10, title, 0, 1, 'L', 1)
+        self.ln(4)
+    
+    def chapter_body(self, body):
+        self.set_font('Arial', '', 11)
+        self.set_text_color(0, 0, 0)
+        self.multi_cell(0, 7, body)
+        self.ln()
 
 def generate_pdf_report(user_data, prediction, tips, symptoms, chat_history):
-    pdf = HeartlyReport()
+    pdf = HeartAlertReport()
     pdf.add_page()
     
-    # Report header
-    pdf.set_font('Arial', 'B', 16)
-    pdf.set_text_color(0, 0, 0)
-    pdf.cell(0, 10, 'Patient Information', 0, 1, 'L')
-    pdf.ln(5)
-    
-    # Patient details
-    pdf.set_font('Arial', '', 12)
-    pdf.cell(0, 8, f"Name: {user_data['name']}", 0, 1)
-    pdf.cell(0, 8, f"Date: {datetime.now().strftime('%B %d, %Y')}", 0, 1)
-    pdf.cell(0, 8, f"Time: {datetime.now().strftime('%I:%M %p')}", 0, 1)
-    pdf.ln(5)
+    # Patient Information
+    pdf.chapter_title('PATIENT INFORMATION')
+    patient_info = f"""Name: {user_data['name']}
+Date: {datetime.now().strftime('%B %d, %Y')}
+Time: {datetime.now().strftime('%I:%M %p')}
+Report ID: HRT-{datetime.now().strftime('%Y%m%d%H%M%S')}"""
+    pdf.chapter_body(patient_info)
     
     # Symptoms
     if symptoms:
-        pdf.set_font('Arial', 'B', 14)
-        pdf.cell(0, 10, 'Reported Symptoms:', 0, 1)
-        pdf.set_font('Arial', '', 12)
-        pdf.multi_cell(0, 8, symptoms)
-        pdf.ln(5)
+        pdf.chapter_title('REPORTED SYMPTOMS')
+        pdf.chapter_body(symptoms)
     
-    # Health metrics
-    pdf.set_font('Arial', 'B', 14)
-    pdf.cell(0, 10, 'Health Metrics:', 0, 1)
-    pdf.set_font('Arial', '', 12)
-    pdf.cell(0, 8, f"Age: {user_data['Age']} years", 0, 1)
-    pdf.cell(0, 8, f"Gender: {user_data['sex']}", 0, 1)
-    pdf.cell(0, 8, f"Resting Blood Pressure: {user_data['RestingBP']} mm Hg", 0, 1)
-    pdf.cell(0, 8, f"Cholesterol: {user_data['Cholesterol']} mg/dL", 0, 1)
-    pdf.cell(0, 8, f"Max Heart Rate: {user_data['MaxHR']} bpm", 0, 1)
-    pdf.cell(0, 8, f"Chest Pain Type: {user_data['chest_pain']}", 0, 1)
-    pdf.ln(5)
+    # Health Metrics
+    pdf.chapter_title('HEALTH METRICS')
+    metrics = f"""Age: {user_data['Age']} years
+Gender: {user_data['sex']}
+Resting Blood Pressure: {user_data['RestingBP']} mm Hg
+Cholesterol: {user_data['Cholesterol']} mg/dL
+Maximum Heart Rate: {user_data['MaxHR']} bpm
+Chest Pain Type: {user_data['chest_pain']}
+Oldpeak (ST Depression): {user_data['oldpeak']}
+Fasting Blood Sugar: {'> 120 mg/dL' if user_data['fasting_bs'] else '< 120 mg/dL'}
+Resting ECG: {user_data['resting_ecg']}
+Exercise Angina: {user_data['exercise_angina']}
+ST Slope: {user_data['st_slope']}"""
+    pdf.chapter_body(metrics)
     
-    # Assessment result
-    pdf.set_font('Arial', 'B', 14)
-    pdf.set_text_color(220, 38, 38) if prediction == 1 else pdf.set_text_color(34, 197, 94)
-    result_text = "HIGH RISK - Immediate medical attention recommended" if prediction == 1 else "LOW RISK - Continue healthy lifestyle"
-    pdf.cell(0, 10, f'Assessment Result: {result_text}', 0, 1)
+    # Assessment Result
+    pdf.chapter_title('RISK ASSESSMENT')
+    pdf.set_font('Arial', 'B', 12)
+    if prediction == 1:
+        pdf.set_text_color(220, 38, 38)
+        result = "HIGH RISK - Immediate medical consultation recommended"
+    else:
+        pdf.set_text_color(34, 197, 94)
+        result = "LOW RISK - Continue maintaining healthy lifestyle"
+    pdf.multi_cell(0, 8, result)
     pdf.set_text_color(0, 0, 0)
-    pdf.ln(5)
+    pdf.ln()
     
     # AI Recommendations
-    pdf.set_font('Arial', 'B', 14)
-    pdf.cell(0, 10, 'Personalized Health Recommendations:', 0, 1)
-    pdf.set_font('Arial', '', 11)
-    pdf.multi_cell(0, 7, tips)
-    pdf.ln(5)
+    pdf.chapter_title('PERSONALIZED HEALTH RECOMMENDATIONS')
+    pdf.chapter_body(tips)
     
-    # Chat conversation
-    if len(chat_history) > 1:
+    # Chat History
+    if len(chat_history) > 0:
         pdf.add_page()
-        pdf.set_font('Arial', 'B', 14)
-        pdf.cell(0, 10, 'Consultation Conversation:', 0, 1)
-        pdf.set_font('Arial', '', 10)
-        
+        pdf.chapter_title('CONSULTATION CONVERSATION')
         for msg in chat_history:
             if msg['role'] == 'user':
                 pdf.set_font('Arial', 'B', 10)
+                pdf.set_text_color(102, 126, 234)
                 pdf.multi_cell(0, 6, f"Patient: {msg['content']}")
                 pdf.ln(2)
             elif msg['role'] == 'assistant':
                 pdf.set_font('Arial', '', 10)
-                pdf.multi_cell(0, 6, f"Heartly AI: {msg['content']}")
+                pdf.set_text_color(0, 0, 0)
+                pdf.multi_cell(0, 6, f"HeartAlert AI: {msg['content']}")
                 pdf.ln(3)
     
     # Disclaimer
     pdf.add_page()
-    pdf.set_font('Arial', 'B', 12)
-    pdf.cell(0, 10, 'Medical Disclaimer:', 0, 1)
-    pdf.set_font('Arial', '', 10)
-    disclaimer = """This report is generated by Heartly, an AI-powered heart health assessment tool. 
-This is NOT a substitute for professional medical advice, diagnosis, or treatment. 
-Always seek the advice of your physician or other qualified health provider with any questions 
-regarding a medical condition. Never disregard professional medical advice or delay seeking it 
-because of information from this report.
+    pdf.chapter_title('MEDICAL DISCLAIMER')
+    disclaimer = """This report is generated by HeartAlert, an AI-powered heart health assessment tool. This is NOT a substitute for professional medical advice, diagnosis, or treatment.
 
-Heartly uses machine learning algorithms to provide risk assessment based on the data provided. 
-Results should be discussed with a healthcare professional for proper interpretation and action.
+Always seek the advice of your physician or other qualified health provider with any questions regarding a medical condition. Never disregard professional medical advice or delay seeking it because of information from this report.
 
-This report is for informational purposes only and should be presented to a licensed medical 
-professional for validation and further evaluation."""
-    pdf.multi_cell(0, 6, disclaimer)
+HeartAlert uses machine learning algorithms to provide risk assessment based on the data provided. Results should be discussed with a healthcare professional for proper interpretation and action.
+
+This report is for informational purposes only and should be presented to a licensed medical professional for validation and further evaluation.
+
+HeartAlert is a verified AI health assessment platform designed to assist healthcare professionals and patients in preliminary risk screening."""
+    pdf.chapter_body(disclaimer)
     
-    # Certification
-    pdf.ln(10)
-    pdf.set_font('Arial', 'I', 10)
-    pdf.cell(0, 6, f'Report ID: HRTLY-{datetime.now().strftime("%Y%m%d%H%M%S")}', 0, 1)
-    pdf.cell(0, 6, 'Verified AI Health Assessment Platform', 0, 1)
+    # Footer certification
+    pdf.ln(5)
+    pdf.set_font('Arial', 'B', 10)
+    pdf.set_text_color(102, 126, 234)
+    pdf.cell(0, 6, 'Verified AI Health Assessment Platform', 0, 1, 'C')
     
     return pdf.output(dest='S').encode('latin1')
 
@@ -254,9 +387,7 @@ professional for validation and further evaluation."""
 # Initialize Session State
 # -------------------------
 if "messages" not in st.session_state:
-    st.session_state["messages"] = [
-        {"role": "system", "content": "You are Heartly, a caring and professional heart health assistant. Provide evidence-based, supportive, and actionable health guidance."}
-    ]
+    st.session_state["messages"] = []
 
 if "prediction_made" not in st.session_state:
     st.session_state["prediction_made"] = False
@@ -265,95 +396,146 @@ if "user_data" not in st.session_state:
     st.session_state["user_data"] = {}
 
 # -------------------------
-# Main UI
+# Header with Logo Placeholder
 # -------------------------
-st.markdown('<h1 class="main-title">❤️ Heartly</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-title">❤️ HeartAlert</h1>', unsafe_allow_html=True)
 st.markdown('<p class="subtitle">Your AI-Powered Heart Health Companion</p>', unsafe_allow_html=True)
 
-# Sidebar for branding and info
+# -------------------------
+# Sidebar for Chat & Info
+# -------------------------
 with st.sidebar:
-    st.markdown("### About Heartly")
+    st.markdown("### 💬 AI Health Assistant")
     st.info("""
-    **Heartly** is an advanced AI-powered platform that helps assess your heart health risk 
-    using machine learning algorithms and provides personalized health recommendations.
+    **Ask me anything about:**
+    - Heart health concerns
+    - Understanding your test results
+    - Lifestyle modifications
+    - Risk factors
+    - Preventive measures
+    
+    I'm here to help 24/7! 🤖
+    """)
+    
+    st.markdown("---")
+    
+    # Chat Interface in Sidebar
+    st.markdown("### Chat with HeartAlert AI")
+    
+    # Display chat messages
+    for msg in st.session_state["messages"]:
+        if msg["role"] == "user":
+            with st.chat_message("user", avatar="👤"):
+                st.markdown(msg["content"])
+        elif msg["role"] == "assistant":
+            with st.chat_message("assistant", avatar="❤️"):
+                st.markdown(msg["content"])
+    
+    # Chat input
+    if user_input := st.chat_input("Ask about heart health..."):
+        st.session_state["messages"].append({"role": "user", "content": user_input})
+        
+        with st.chat_message("user", avatar="👤"):
+            st.markdown(user_input)
+        
+        with st.chat_message("assistant", avatar="❤️"):
+            with st.spinner("Thinking..."):
+                try:
+                    # Prepare context-aware prompt
+                    system_message = """You are HeartAlert, a professional and caring heart health AI assistant. 
+                    Provide evidence-based, supportive, and actionable health guidance. 
+                    Be empathetic but clear. If the user asks about specific symptoms or medical advice, 
+                    always remind them to consult a healthcare professional."""
+                    
+                    messages = [{"role": "system", "content": system_message}] + st.session_state["messages"]
+                    
+                    response = client.chat.completions.create(
+                        model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+                        messages=messages,
+                        temperature=0.7,
+                        max_tokens=500
+                    )
+                    ai_reply = response.choices[0].message.content.strip()
+                    st.session_state["messages"].append({"role": "assistant", "content": ai_reply})
+                    st.markdown(ai_reply)
+                except Exception as e:
+                    st.error(f"⚠️ Chat error: {e}")
+    
+    st.markdown("---")
+    st.markdown("### About HeartAlert")
+    st.markdown("""
+    **HeartAlert** uses advanced AI to assess heart disease risk and provide personalized recommendations.
     
     ⚕️ **Professional Grade**  
     🤖 **AI-Powered Analysis**  
     📊 **Evidence-Based**  
     📄 **Downloadable Reports**
-    """)
     
-    st.markdown("### How It Works")
-    st.markdown("""
-    1. **Enter** your health information
-    2. **Describe** any symptoms you're experiencing
-    3. **Get** instant AI risk assessment
-    4. **Receive** personalized health tips
-    5. **Chat** with our AI health coach
-    6. **Download** your comprehensive report
+    **⚠️ Disclaimer:** This is NOT a substitute for professional medical advice.
     """)
-    
-    st.markdown("---")
-    st.markdown("**⚠️ Medical Disclaimer:**  \nThis tool provides health information and risk assessment. It is NOT a substitute for professional medical advice.")
 
-# Main content area
+# -------------------------
+# Main Assessment Form
+# -------------------------
+st.markdown('<p class="section-header">📋 Patient Assessment Form</p>', unsafe_allow_html=True)
+
+# Personal Information
 col1, col2 = st.columns([1, 1])
 
 with col1:
-    st.markdown("### 👤 Personal Information")
+    st.markdown("#### 👤 Personal Information")
     user_name = st.text_input("Full Name *", placeholder="Enter your full name")
     age = st.slider("Age", 18, 100, 40)
     sex = st.selectbox("Gender", ["M", "F"], format_func=lambda x: "Male" if x == "M" else "Female")
-    
-    st.markdown("### 🩺 Symptoms & Concerns")
-    symptoms = st.text_area(
-        "Describe any symptoms you're experiencing",
-        placeholder="E.g., chest pain, shortness of breath, fatigue, dizziness...",
-        height=100
-    )
 
 with col2:
-    st.markdown("### 📊 Vital Signs")
-    resting_bp = st.number_input("Resting Blood Pressure (mm Hg)", 80, 200, 120)
-    cholesterol = st.number_input("Cholesterol (mg/dL)", 100, 600, 200)
-    max_hr = st.slider("Maximum Heart Rate", 60, 220, 150)
-    oldpeak = st.slider("Oldpeak (ST Depression)", 0.0, 6.0, 1.0, 0.1)
+    st.markdown("#### 🩺 Symptoms & Concerns")
+    symptoms = st.text_area(
+        "Describe any symptoms you're experiencing *",
+        placeholder="E.g., chest pain, shortness of breath, fatigue, dizziness, palpitations...",
+        height=120
+    )
 
 st.markdown("---")
 
-# Additional medical details in expandable sections
-with st.expander("⚕️ Additional Medical Details", expanded=False):
-    col3, col4, col5 = st.columns(3)
-    
-    with col3:
-        chest_pain = st.selectbox("Chest Pain Type", ["ATA", "NAP", "TA", "ASY"],
-                                 help="ATA: Atypical Angina, NAP: Non-Anginal Pain, TA: Typical Angina, ASY: Asymptomatic")
-        fasting_bs = st.selectbox("Fasting Blood Sugar > 120 mg/dL", [0, 1],
-                                 format_func=lambda x: "No" if x == 0 else "Yes")
-    
-    with col4:
-        resting_ecg = st.selectbox("Resting ECG", ["Normal", "ST", "LVH"],
-                                  help="Normal, ST: ST-T wave abnormality, LVH: Left Ventricular Hypertrophy")
-        exercise_angina = st.selectbox("Exercise-Induced Angina", ["N", "Y"],
-                                      format_func=lambda x: "No" if x == "N" else "Yes")
-    
-    with col5:
-        st_slope = st.selectbox("ST Slope", ["Up", "Flat", "Down"],
-                               help="Slope of peak exercise ST segment")
+# Vital Signs
+st.markdown("#### 📊 Vital Signs & Medical Information")
+
+col3, col4, col5 = st.columns(3)
+
+with col3:
+    resting_bp = st.number_input("Resting Blood Pressure (mm Hg)", 80, 200, 120)
+    max_hr = st.slider("Maximum Heart Rate (bpm)", 60, 220, 150)
+    chest_pain = st.selectbox("Chest Pain Type", ["ATA", "NAP", "TA", "ASY"],
+                             help="ATA: Atypical Angina, NAP: Non-Anginal Pain, TA: Typical Angina, ASY: Asymptomatic")
+
+with col4:
+    cholesterol = st.number_input("Cholesterol (mg/dL)", 100, 600, 200)
+    oldpeak = st.slider("Oldpeak (ST Depression)", 0.0, 6.0, 1.0, 0.1)
+    fasting_bs = st.selectbox("Fasting Blood Sugar > 120 mg/dL", [0, 1],
+                             format_func=lambda x: "No" if x == 0 else "Yes")
+
+with col5:
+    resting_ecg = st.selectbox("Resting ECG", ["Normal", "ST", "LVH"],
+                              help="Normal, ST: ST-T wave abnormality, LVH: Left Ventricular Hypertrophy")
+    exercise_angina = st.selectbox("Exercise-Induced Angina", ["N", "Y"],
+                                  format_func=lambda x: "No" if x == "N" else "Yes")
+    st_slope = st.selectbox("ST Slope", ["Up", "Flat", "Down"],
+                           help="Slope of peak exercise ST segment")
 
 st.markdown("---")
 
 # -------------------------
-# Predict Button
+# Analyze Button
 # -------------------------
 col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
 
 with col_btn2:
-    predict_btn = st.button("🔍 Analyze Heart Health", use_container_width=True)
+    analyze_btn = st.button("🔍 Analyze Heart Health", use_container_width=True)
 
-if predict_btn:
-    if not user_name:
-        st.error("⚠️ Please enter your full name before proceeding.")
+if analyze_btn:
+    if not user_name or not symptoms:
+        st.error("⚠️ Please enter your full name and describe your symptoms before proceeding.")
     else:
         with st.spinner("🔄 Analyzing your heart health data..."):
             # Prepare input
@@ -396,12 +578,17 @@ if predict_btn:
                 'Cholesterol': cholesterol,
                 'MaxHR': max_hr,
                 'chest_pain': chest_pain,
+                'oldpeak': oldpeak,
+                'fasting_bs': fasting_bs,
+                'resting_ecg': resting_ecg,
+                'exercise_angina': 'Yes' if exercise_angina == 'Y' else 'No',
+                'st_slope': st_slope,
                 'symptoms': symptoms
             }
             st.session_state["prediction"] = prediction
             st.session_state["prediction_made"] = True
 
-            # Display prediction with animation
+            # Display prediction
             st.markdown("---")
             if prediction == 1:
                 st.error("### ⚠️ HIGH RISK of Heart Disease Detected")
@@ -418,35 +605,36 @@ if predict_btn:
                 Continue maintaining a healthy lifestyle and regular check-ups.
                 """)
 
-            # -------------------------
-            # AI Health Tips
-            # -------------------------
+            # Generate AI Recommendations
             st.markdown("---")
-            st.markdown("### 💡 Personalized Health Recommendations")
+            st.markdown('<p class="section-header">💡 Personalized Health Recommendations</p>', unsafe_allow_html=True)
             
             with st.spinner("🤖 Generating personalized health tips..."):
                 prompt = f"""
                 Patient Information:
                 - Name: {user_name}
-                - Health Data: {raw_input}
-                - Symptoms: {symptoms if symptoms else "None reported"}
+                - Age: {age}, Gender: {'Male' if sex == 'M' else 'Female'}
+                - Blood Pressure: {resting_bp} mm Hg
+                - Cholesterol: {cholesterol} mg/dL
+                - Max Heart Rate: {max_hr} bpm
+                - Symptoms: {symptoms}
                 - Risk Assessment: {'HIGH RISK' if prediction == 1 else 'LOW RISK'}
 
-                Provide 4-5 specific, actionable, and personalized health recommendations:
-                1. Immediate actions (if high risk) or preventive measures (if low risk)
+                Provide 4-5 specific, actionable health recommendations in a clear, organized format:
+                1. Immediate actions needed (if high risk) or preventive measures (if low risk)
                 2. Dietary modifications specific to their metrics
                 3. Exercise recommendations appropriate for their age and condition
                 4. Stress management and lifestyle tips
                 5. Medical follow-up suggestions
 
-                Be empathetic, encouraging, and professional. Focus on prevention and improvement.
+                Be empathetic, encouraging, and professional. Use clear headings for each recommendation.
                 """
 
                 try:
                     response = client.chat.completions.create(
                         model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
                         messages=[
-                            {"role": "system", "content": "You are Heartly, a professional heart health AI assistant providing evidence-based recommendations."},
+                            {"role": "system", "content": "You are HeartAlert, a professional heart health AI assistant. Provide clear, well-structured recommendations with proper headings and bullet points."},
                             {"role": "user", "content": prompt}
                         ],
                         temperature=0.7,
@@ -457,59 +645,22 @@ if predict_btn:
 
                     st.markdown(f"""
                     <div class="info-box">
-                    {tips}
+                    {tips.replace('**', '')}
                     </div>
                     """, unsafe_allow_html=True)
 
-                    # Add to chat history
-                    st.session_state["messages"].append({"role": "assistant", "content": tips})
+                    # Add to chat history only once
+                    if len(st.session_state["messages"]) == 0 or st.session_state["messages"][-1]["content"] != tips:
+                        st.session_state["messages"].append({"role": "assistant", "content": f"Based on your assessment, here are personalized recommendations:\n\n{tips}"})
 
                 except Exception as e:
                     st.error(f"Error generating recommendations: {e}")
                     st.session_state["tips"] = "Unable to generate recommendations at this time."
 
 # -------------------------
-# Chat Interface
+# Download Report
 # -------------------------
 if st.session_state["prediction_made"]:
-    st.markdown("---")
-    st.markdown("## 💬 Chat with Your AI Health Coach")
-    st.markdown("*Ask any questions about your heart health, lifestyle, or the assessment results*")
-
-    # Display past messages
-    for msg in st.session_state["messages"]:
-        if msg["role"] == "user":
-            with st.chat_message("user", avatar="👤"):
-                st.markdown(msg["content"])
-        elif msg["role"] == "assistant":
-            with st.chat_message("assistant", avatar="❤️"):
-                st.markdown(msg["content"])
-
-    # User input
-    if user_input := st.chat_input("Ask me anything about heart health..."):
-        st.session_state["messages"].append({"role": "user", "content": user_input})
-        
-        with st.chat_message("user", avatar="👤"):
-            st.markdown(user_input)
-
-        with st.chat_message("assistant", avatar="❤️"):
-            with st.spinner("Thinking..."):
-                try:
-                    response = client.chat.completions.create(
-                        model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
-                        messages=st.session_state["messages"],
-                        temperature=0.7,
-                        max_tokens=500
-                    )
-                    ai_reply = response.choices[0].message.content.strip()
-                    st.session_state["messages"].append({"role": "assistant", "content": ai_reply})
-                    st.markdown(ai_reply)
-                except Exception as e:
-                    st.error(f"⚠️ Chat error: {e}")
-
-    # -------------------------
-    # Download Report Button
-    # -------------------------
     st.markdown("---")
     col_report1, col_report2, col_report3 = st.columns([1, 2, 1])
     
@@ -521,14 +672,14 @@ if st.session_state["prediction_made"]:
                         st.session_state["user_data"],
                         st.session_state["prediction"],
                         st.session_state.get("tips", ""),
-                        symptoms,
-                        st.session_state["messages"][1:]  # Exclude system message
+                        st.session_state["user_data"]["symptoms"],
+                        st.session_state["messages"]
                     )
                     
                     st.download_button(
                         label="⬇️ Click Here to Download Your Report",
                         data=pdf_bytes,
-                        file_name=f"Heartly_Report_{user_name.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d')}.pdf",
+                        file_name=f"HeartAlert_Report_{st.session_state['user_data']['name'].replace(' ', '_')}_{datetime.now().strftime('%Y%m%d')}.pdf",
                         mime="application/pdf",
                         use_container_width=True
                     )
@@ -537,14 +688,13 @@ if st.session_state["prediction_made"]:
                     
                 except Exception as e:
                     st.error(f"Error generating report: {e}")
-                    st.info("Please ensure you have completed the health assessment first.")
 
 # Footer
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center; color: #6b7280; padding: 2rem;'>
-    <p><strong>Heartly</strong> - AI-Powered Heart Health Assistant</p>
+    <p><strong>HeartAlert</strong> - AI-Powered Heart Health Assistant</p>
     <p style='font-size: 0.9rem;'>This tool is for informational purposes only and is not a substitute for professional medical advice.</p>
-    <p style='font-size: 0.8rem; margin-top: 1rem;'>© 2024 Heartly. All rights reserved.</p>
+    <p style='font-size: 0.8rem; margin-top: 1rem;'>© 2024 HeartAlert. All rights reserved.</p>
 </div>
 """, unsafe_allow_html=True)
