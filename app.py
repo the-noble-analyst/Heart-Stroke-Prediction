@@ -662,6 +662,6 @@ st.markdown("""
 <div style='text-align: center; color: #6b7280; padding: 2rem;'>
     <p><strong>HeartAlert</strong> - AI-Powered Heart Health Assistant</p>
     <p style='font-size: 0.9rem;'>This tool is for informational purposes only and is not a substitute for professional medical advice.</p>
-    <p style='font-size: 0.8rem; margin-top: 1rem;'>© 2024 HeartAlert. All rights reserved.</p>
+    <p style='font-size: 0.8rem; margin-top: 1rem;'>© 2025 HeartAlert. All rights reserved.</p>
 </div>
 """, unsafe_allow_html=True)
