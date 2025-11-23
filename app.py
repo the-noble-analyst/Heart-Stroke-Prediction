@@ -355,13 +355,17 @@ st.markdown("""
     </p>
     <div style='display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; flex-wrap: wrap;'>
         <div style='text-align: center;'>
+            <div style='color: #3b82f6; font-size: 1.8rem; font-weight: 600;'>88.6%</div>
+            <div style='color: #6b7280; font-size: 0.85rem;'>Model Accuracy</div>
+        </div>
+        <div style='text-align: center;'>
             <div style='color: #3b82f6; font-size: 1.8rem; font-weight: 600;'>< 30s</div>
             <div style='color: #6b7280; font-size: 0.85rem;'>Analysis Time</div>
         </div>
-#       <div style='text-align: center;'>
-#           <div style='color: #3b82f6; font-size: 1.8rem; font-weight: 600;'>24/7</div>
- #          <div style='color: #6b7280; font-size: 0.85rem;'>AI Support</div>
-#       </div>
+        <div style='text-align: center;'>
+            <div style='color: #3b82f6; font-size: 1.8rem; font-weight: 600;'>24/7</div>
+            <div style='color: #6b7280; font-size: 0.85rem;'>AI Support</div>
+        </div>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -682,6 +686,6 @@ st.markdown("""
 <div style='text-align: center; color: #6b7280; padding: 2rem;'>
     <p><strong>HeartAlert</strong> - AI-Powered Heart Health Assistant</p>
     <p style='font-size: 0.9rem;'>This tool is for informational purposes only and is not a substitute for professional medical advice.</p>
-    <p style='font-size: 0.8rem; margin-top: 1rem;'>© 2025 HeartAlert. All rights reserved.</p>
+    <p style='font-size: 0.8rem; margin-top: 1rem;'>© 2024 HeartAlert. All rights reserved.</p>
 </div>
 """, unsafe_allow_html=True)
