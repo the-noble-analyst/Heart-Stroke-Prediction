@@ -391,7 +391,30 @@ with st.expander("📌 Quick Questions", expanded=False):
     for idx, question in enumerate(quick_questions):
         with cols[idx % 2]:
             if st.button(question, key=f"quick_q_{idx}", use_container_width=True):
+                # Add user question
                 st.session_state["messages"].append({"role": "user", "content": question})
+                
+                # Get AI response
+                try:
+                    system_message = """You are HeartAlert, a professional and caring heart health AI assistant. 
+                    Provide evidence-based, supportive, and actionable health guidance. 
+                    Be empathetic but clear. Keep responses concise and well-formatted.
+                    If the user asks about specific symptoms or medical advice, 
+                    always remind them to consult a healthcare professional."""
+                    
+                    messages = [{"role": "system", "content": system_message}] + st.session_state["messages"]
+                    
+                    response = client.chat.completions.create(
+                        model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+                        messages=messages,
+                        temperature=0.7,
+                        max_tokens=500
+                    )
+                    ai_reply = response.choices[0].message.content.strip()
+                    st.session_state["messages"].append({"role": "assistant", "content": ai_reply})
+                except Exception as e:
+                    st.session_state["messages"].append({"role": "assistant", "content": f"Sorry, I encountered an error: {e}"})
+                
                 st.rerun()
 
 # Display chat messages
