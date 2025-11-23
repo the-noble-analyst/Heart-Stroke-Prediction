@@ -316,7 +316,7 @@ if "show_chat_modal" not in st.session_state:
 try:
     col_logo1, col_logo2, col_logo3 = st.columns([1, 2, 1])
     with col_logo2:
-        st.image("logo.png", use_column_width=True)
+        st.image("HeartProjectLogo.png", use_column_width=True)
 except:
     st.markdown('<h1 style="text-align: center; color: #1f2937; font-size: 2.5rem; font-weight: 600; margin: 1rem 0;">❤️ HeartAlert</h1>', unsafe_allow_html=True)
     st.markdown('<p style="text-align: center; color: #6b7280; font-size: 1rem; margin-bottom: 1.5rem;">AI-Powered Heart Health Assessment</p>', unsafe_allow_html=True)
