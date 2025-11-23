@@ -17,134 +17,47 @@ st.set_page_config(
 )
 
 # -------------------------
-# Custom CSS for Professional UI
+# Custom CSS for Minimalist UI
 # -------------------------
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
     
     * {
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Inter', sans-serif;
     }
     
     /* Main background */
     .main {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: #ffffff;
         padding: 1rem;
     }
     
     /* Remove default padding */
     .block-container {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-        max-width: 1400px;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        max-width: 1200px;
     }
     
     /* Logo container */
     .logo-container {
         text-align: center;
-        margin-bottom: 2rem;
-        animation: fadeInDown 1s ease-in-out;
+        margin-bottom: 1.5rem;
     }
     
     .logo-container img {
-        max-width: 350px;
-        filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
-        animation: pulse 2s infinite;
-    }
-    
-    /* AI Chat Button */
-    .ai-chat-button {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        z-index: 9999;
-        animation: bounce 2s infinite;
-    }
-    
-    .ai-chat-button button {
-        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 80px;
-        height: 80px;
-        font-size: 2rem;
-        cursor: pointer;
-        box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .ai-chat-button button:hover {
-        transform: scale(1.1);
-        box-shadow: 0 12px 35px rgba(239, 68, 68, 0.7);
-    }
-    
-    /* Animations */
-    @keyframes fadeInDown {
-        from {
-            opacity: 0;
-            transform: translateY(-30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    @keyframes pulse {
-        0%, 100% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.05);
-        }
-    }
-    
-    @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% {
-            transform: translateY(0);
-        }
-        40% {
-            transform: translateY(-10px);
-        }
-        60% {
-            transform: translateY(-5px);
-        }
-    }
-    
-    @keyframes slideInLeft {
-        from {
-            opacity: 0;
-            transform: translateX(-50px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-    
-    /* Card styling */
-    .stApp > div > div {
-        background: white;
-        border-radius: 25px;
-        padding: 2.5rem;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-        animation: slideInLeft 0.8s ease-out;
+        max-width: 280px;
     }
     
     /* Section headers */
     .section-header {
-        color: #667eea;
-        font-size: 1.8rem;
-        font-weight: 700;
-        margin: 2rem 0 1.5rem 0;
-        padding-left: 15px;
-        border-left: 5px solid #667eea;
-        animation: slideInLeft 0.6s ease-out;
+        color: #1f2937;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 1.5rem 0 1rem 0;
+        border-bottom: 2px solid #e5e7eb;
+        padding-bottom: 0.5rem;
     }
     
     /* Input styling */
@@ -152,110 +65,79 @@ st.markdown("""
     .stNumberInput > div > div > input,
     .stSelectbox > div > div > select,
     .stTextArea > div > div > textarea {
-        border-radius: 12px;
-        border: 2px solid #e5e7eb;
-        padding: 0.75rem 1rem;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        background: #f9fafb;
+        border-radius: 6px;
+        border: 1px solid #d1d5db;
+        padding: 0.6rem;
+        font-size: 0.95rem;
+        background: white;
     }
     
     .stTextInput > div > div > input:focus,
     .stNumberInput > div > div > input:focus,
     .stSelectbox > div > div > select:focus,
     .stTextArea > div > div > textarea:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        background: white;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
     }
     
     /* Labels */
     label {
-        font-weight: 600;
+        font-weight: 500;
         color: #374151;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
     }
     
     /* Button styling */
     .stButton > button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: #3b82f6;
         color: white;
         border: none;
-        border-radius: 15px;
-        padding: 1.2rem 2.5rem;
-        font-size: 1.2rem;
-        font-weight: 700;
+        border-radius: 6px;
+        padding: 0.7rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 500;
         width: 100%;
-        transition: all 0.4s ease;
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-        text-transform: uppercase;
-        letter-spacing: 1px;
+        transition: background 0.2s ease;
     }
     
     .stButton > button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+        background: #2563eb;
     }
     
     /* Chat messages */
     .stChatMessage {
-        border-radius: 15px;
-        padding: 1.2rem;
-        margin: 0.8rem 0;
-        animation: slideInLeft 0.5s ease-out;
+        border-radius: 8px;
+        padding: 0.8rem;
+        margin: 0.5rem 0;
+        border: 1px solid #e5e7eb;
     }
     
     /* Success/Error boxes */
     .stSuccess {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        color: white;
-        border-radius: 15px;
-        padding: 1.5rem;
-        font-size: 1.2rem;
-        font-weight: 600;
-        border: none;
-        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        background: #ecfdf5;
+        color: #065f46;
+        border-radius: 6px;
+        padding: 1rem;
+        border: 1px solid #10b981;
     }
     
     .stError, .stWarning {
-        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        color: white;
-        border-radius: 15px;
-        padding: 1.5rem;
-        font-size: 1.2rem;
-        font-weight: 600;
-        border: none;
-        box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+        background: #fef2f2;
+        color: #991b1b;
+        border-radius: 6px;
+        padding: 1rem;
+        border: 1px solid #ef4444;
     }
     
     /* Info boxes */
     .info-box {
-        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-        border-left: 5px solid #3b82f6;
-        padding: 1.5rem;
-        border-radius: 12px;
-        margin: 1.5rem 0;
-        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
-    }
-    
-    /* Quick question buttons */
-    .quick-question {
-        background: white;
-        border: 2px solid #667eea;
-        border-radius: 10px;
-        padding: 0.8rem 1.2rem;
-        margin: 0.5rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-block;
-        color: #667eea;
-        font-weight: 600;
-    }
-    
-    .quick-question:hover {
-        background: #667eea;
-        color: white;
-        transform: translateY(-2px);
+        background: #f9fafb;
+        border-left: 3px solid #3b82f6;
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+        color: #1f2937;
+        line-height: 1.6;
     }
     
     /* Hide streamlit branding */
@@ -264,7 +146,14 @@ st.markdown("""
     
     /* Slider styling */
     .stSlider > div > div > div {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        background: #3b82f6;
+    }
+    
+    /* Divider */
+    hr {
+        margin: 2rem 0;
+        border: none;
+        border-top: 1px solid #e5e7eb;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -425,17 +314,19 @@ if "show_chat_modal" not in st.session_state:
 # Header with Logo
 # -------------------------
 try:
-    st.image("logo.png", use_column_width=False, width=350)
+    col_logo1, col_logo2, col_logo3 = st.columns([1, 2, 1])
+    with col_logo2:
+        st.image("logo.png", use_column_width=True)
 except:
-    st.markdown('<h1 style="text-align: center; color: white; font-size: 3.5rem; font-weight: 800; margin: 1rem 0; text-shadow: 2px 2px 8px rgba(0,0,0,0.3);">❤️ HeartAlert</h1>', unsafe_allow_html=True)
-    st.markdown('<p style="text-align: center; color: #e0e7ff; font-size: 1.3rem; margin-bottom: 2rem;">Your AI-Powered Heart Health Companion</p>', unsafe_allow_html=True)
+    st.markdown('<h1 style="text-align: center; color: #1f2937; font-size: 2.5rem; font-weight: 600; margin: 1rem 0;">❤️ HeartAlert</h1>', unsafe_allow_html=True)
+    st.markdown('<p style="text-align: center; color: #6b7280; font-size: 1rem; margin-bottom: 1.5rem;">AI-Powered Heart Health Assessment</p>', unsafe_allow_html=True)
 
 # -------------------------
-# AI Chat Button (Floating)
+# AI Chat Button
 # -------------------------
-col_float1, col_float2 = st.columns([5, 1])
+col_float1, col_float2, col_float3 = st.columns([4, 1, 1])
 with col_float2:
-    if st.button("❤️\n💬", key="ai_chat_float", help="Ask AI"):
+    if st.button("💬 Ask AI", key="ai_chat_float"):
         st.session_state["show_chat_modal"] = not st.session_state["show_chat_modal"]
 
 # -------------------------
@@ -443,10 +334,10 @@ with col_float2:
 # -------------------------
 if st.session_state["show_chat_modal"]:
     st.markdown("---")
-    st.markdown('<p class="section-header">💬 AI Health Assistant</p>', unsafe_allow_html=True)
+    st.markdown("### 💬 AI Health Assistant")
     
     # Quick Questions
-    st.markdown("### 🔥 Quick Questions")
+    st.markdown("**Quick Questions:**")
     
     quick_questions = [
         "What are the warning signs of a heart attack?",
@@ -462,7 +353,7 @@ if st.session_state["show_chat_modal"]:
     cols = st.columns(2)
     for idx, question in enumerate(quick_questions):
         with cols[idx % 2]:
-            if st.button(f"❓ {question}", key=f"quick_q_{idx}", use_container_width=True):
+            if st.button(question, key=f"quick_q_{idx}", use_container_width=True):
                 st.session_state["messages"].append({"role": "user", "content": question})
                 st.rerun()
     
@@ -509,7 +400,7 @@ if st.session_state["show_chat_modal"]:
                     st.error(f"⚠️ Chat error: {e}")
     
     # Close button
-    if st.button("✖️ Close Chat", use_container_width=True):
+    if st.button("Close Chat", use_container_width=True):
         st.session_state["show_chat_modal"] = False
         st.rerun()
     
@@ -518,19 +409,19 @@ if st.session_state["show_chat_modal"]:
 # -------------------------
 # Main Assessment Form
 # -------------------------
-st.markdown('<p class="section-header">📋 Patient Assessment Form</p>', unsafe_allow_html=True)
+st.markdown("### Patient Assessment Form")
 
 # Personal Information
 col1, col2 = st.columns([1, 1])
 
 with col1:
-    st.markdown("#### 👤 Personal Information")
+    st.markdown("**Personal Information**")
     user_name = st.text_input("Full Name *", placeholder="Enter your full name")
     age = st.slider("Age", 18, 100, 40)
     sex = st.selectbox("Gender", ["M", "F"], format_func=lambda x: "Male" if x == "M" else "Female")
 
 with col2:
-    st.markdown("#### 🩺 Symptoms & Concerns")
+    st.markdown("**Symptoms & Concerns**")
     symptoms = st.text_area(
         "Describe any symptoms you're experiencing *",
         placeholder="E.g., chest pain, shortness of breath, fatigue, dizziness, palpitations...",
@@ -540,7 +431,7 @@ with col2:
 st.markdown("---")
 
 # Vital Signs
-st.markdown("#### 📊 Vital Signs & Medical Information")
+st.markdown("**Vital Signs & Medical Information**")
 
 col3, col4, col5 = st.columns(3)
 
@@ -572,7 +463,7 @@ st.markdown("---")
 col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
 
 with col_btn2:
-    analyze_btn = st.button("🔍 Analyze Heart Health", use_container_width=True)
+    analyze_btn = st.button("Analyze Heart Health", use_container_width=True)
 
 if analyze_btn:
     if not user_name or not symptoms:
@@ -632,7 +523,7 @@ if analyze_btn:
             # Display prediction
             st.markdown("---")
             if prediction == 1:
-                st.error("### ⚠️ HIGH RISK of Heart Disease Detected")
+                st.error("**HIGH RISK of Heart Disease Detected**")
                 st.warning("""
                 **Immediate Action Recommended:**
                 - Consult a cardiologist as soon as possible
@@ -640,7 +531,7 @@ if analyze_btn:
                 - Download your report and bring it to your doctor
                 """)
             else:
-                st.success("### ✅ LOW RISK of Heart Disease")
+                st.success("**LOW RISK of Heart Disease**")
                 st.info("""
                 **Great News!** Your current health metrics indicate a lower risk. 
                 Continue maintaining a healthy lifestyle and regular check-ups.
@@ -648,7 +539,7 @@ if analyze_btn:
 
             # Generate AI Recommendations
             st.markdown("---")
-            st.markdown('<p class="section-header">💡 Personalized Health Recommendations</p>', unsafe_allow_html=True)
+            st.markdown("### Personalized Health Recommendations")
             
             with st.spinner("🤖 Generating personalized health tips..."):
                 prompt = f"""
@@ -704,7 +595,7 @@ if st.session_state["prediction_made"]:
     col_report1, col_report2, col_report3 = st.columns([1, 2, 1])
     
     with col_report2:
-        if st.button("📄 Download Complete Report (PDF)", use_container_width=True):
+        if st.button("Download Complete Report (PDF)", use_container_width=True):
             with st.spinner("📝 Generating your comprehensive health report..."):
                 try:
                     pdf_bytes = generate_pdf_report(
@@ -716,14 +607,14 @@ if st.session_state["prediction_made"]:
                     )
                     
                     st.download_button(
-                        label="⬇️ Click Here to Download Your Report",
+                        label="Click to Download",
                         data=pdf_bytes,
                         file_name=f"HeartAlert_Report_{st.session_state['user_data']['name'].replace(' ', '_')}_{datetime.now().strftime('%Y%m%d')}.pdf",
                         mime="application/pdf",
                         use_container_width=True
                     )
                     
-                    st.success("✅ Report generated successfully! This includes your assessment, AI recommendations, and complete chat history.")
+                    st.success("Report generated successfully! This includes your assessment, AI recommendations, and complete chat history.")
                     
                 except Exception as e:
                     st.error(f"Error generating report: {e}")
