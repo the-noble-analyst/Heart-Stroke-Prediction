@@ -354,10 +354,10 @@ st.markdown("""
         Our AI analyzes your vital signs and medical data to provide personalized risk assessment and recommendations.
     </p>
     <div style='display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; flex-wrap: wrap;'>
-        <div style='text-align: center;'>
-            <div style='color: #3b82f6; font-size: 1.8rem; font-weight: 600;'>< 30s</div>
-            <div style='color: #6b7280; font-size: 0.85rem;'>Analysis Time</div>
-        </div>
+        # <div style='text-align: center;'>
+        #     <div style='color: #3b82f6; font-size: 1.8rem; font-weight: 600;'>< 30s</div>
+        #     <div style='color: #6b7280; font-size: 0.85rem;'>Analysis Time</div>
+        # </div>
         <div style='text-align: center;'>
             <div style='color: #3b82f6; font-size: 1.8rem; font-weight: 600;'>24/7</div>
             <div style='color: #6b7280; font-size: 0.85rem;'>AI Support</div>
