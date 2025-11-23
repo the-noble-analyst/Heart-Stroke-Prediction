@@ -345,26 +345,37 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# Service description
+st.markdown("""
+<div style='text-align: center; max-width: 800px; margin: 1.5rem auto; padding: 1.5rem; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;'>
+    <h2 style='color: #1f2937; font-size: 1.5rem; font-weight: 600; margin-bottom: 0.8rem;'>AI-Powered Heart Disease Risk Assessment</h2>
+    <p style='color: #6b7280; font-size: 1rem; line-height: 1.6; margin-bottom: 0.5rem;'>
+        Get instant insights into your heart health with our advanced machine learning technology. 
+        Our AI analyzes your vital signs and medical data to provide personalized risk assessment and recommendations.
+    </p>
+    <div style='display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; flex-wrap: wrap;'>
+        <div style='text-align: center;'>
+            <div style='color: #3b82f6; font-size: 1.8rem; font-weight: 600;'>< 30s</div>
+            <div style='color: #6b7280; font-size: 0.85rem;'>Analysis Time</div>
+        </div>
+        <div style='text-align: center;'>
+            <div style='color: #3b82f6; font-size: 1.8rem; font-weight: 600;'>24/7</div>
+            <div style='color: #6b7280; font-size: 0.85rem;'>AI Support</div>
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
 st.markdown("<br>", unsafe_allow_html=True)
 
 # -------------------------
-# AI Chat Button
+# AI Chat Interface (Always Visible)
 # -------------------------
-col_float1, col_float2, col_float3 = st.columns([4, 1, 1])
-with col_float2:
-    if st.button("💬 Ask AI", key="ai_chat_float"):
-        st.session_state["show_chat_modal"] = not st.session_state["show_chat_modal"]
+st.markdown("### 💬 AI Health Assistant")
+st.markdown("Ask me anything about heart health, symptoms, or how this assessment works.")
 
-# -------------------------
-# AI Chat Modal
-# -------------------------
-if st.session_state["show_chat_modal"]:
-    st.markdown("---")
-    st.markdown("### 💬 AI Health Assistant")
-    
-    # Quick Questions
-    st.markdown("**Quick Questions:**")
-    
+# Quick Questions
+with st.expander("📌 Quick Questions", expanded=False):
     quick_questions = [
         "What are the warning signs of a heart attack?",
         "How can I lower my cholesterol naturally?",
@@ -382,55 +393,48 @@ if st.session_state["show_chat_modal"]:
             if st.button(question, key=f"quick_q_{idx}", use_container_width=True):
                 st.session_state["messages"].append({"role": "user", "content": question})
                 st.rerun()
-    
-    st.markdown("---")
-    
-    # Display chat messages
-    for msg in st.session_state["messages"]:
-        if msg["role"] == "user":
-            with st.chat_message("user", avatar="👤"):
-                st.markdown(msg["content"])
-        elif msg["role"] == "assistant":
-            with st.chat_message("assistant", avatar="❤️"):
-                st.markdown(msg["content"])
-    
-    # Chat input
-    if user_input := st.chat_input("Ask me anything about heart health..."):
-        st.session_state["messages"].append({"role": "user", "content": user_input})
-        
+
+# Display chat messages
+for msg in st.session_state["messages"]:
+    if msg["role"] == "user":
         with st.chat_message("user", avatar="👤"):
-            st.markdown(user_input)
-        
+            st.markdown(msg["content"])
+    elif msg["role"] == "assistant":
         with st.chat_message("assistant", avatar="❤️"):
-            with st.spinner("Thinking..."):
-                try:
-                    system_message = """You are HeartAlert, a professional and caring heart health AI assistant. 
-                    Provide evidence-based, supportive, and actionable health guidance. 
-                    Be empathetic but clear. Keep responses concise and well-formatted.
-                    If the user asks about specific symptoms or medical advice, 
-                    always remind them to consult a healthcare professional."""
-                    
-                    messages = [{"role": "system", "content": system_message}] + st.session_state["messages"]
-                    
-                    response = client.chat.completions.create(
-                        model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
-                        messages=messages,
-                        temperature=0.7,
-                        max_tokens=500
-                    )
-                    ai_reply = response.choices[0].message.content.strip()
-                    st.session_state["messages"].append({"role": "assistant", "content": ai_reply})
-                    st.markdown(ai_reply)
-                    st.rerun()
-                except Exception as e:
-                    st.error(f"⚠️ Chat error: {e}")
+            st.markdown(msg["content"])
+
+# Chat input
+if user_input := st.chat_input("Ask me anything about heart health..."):
+    st.session_state["messages"].append({"role": "user", "content": user_input})
     
-    # Close button
-    if st.button("Close Chat", use_container_width=True):
-        st.session_state["show_chat_modal"] = False
-        st.rerun()
+    with st.chat_message("user", avatar="👤"):
+        st.markdown(user_input)
     
-    st.markdown("---")
+    with st.chat_message("assistant", avatar="❤️"):
+        with st.spinner("Thinking..."):
+            try:
+                system_message = """You are HeartAlert, a professional and caring heart health AI assistant. 
+                Provide evidence-based, supportive, and actionable health guidance. 
+                Be empathetic but clear. Keep responses concise and well-formatted.
+                If the user asks about specific symptoms or medical advice, 
+                always remind them to consult a healthcare professional."""
+                
+                messages = [{"role": "system", "content": system_message}] + st.session_state["messages"]
+                
+                response = client.chat.completions.create(
+                    model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+                    messages=messages,
+                    temperature=0.7,
+                    max_tokens=500
+                )
+                ai_reply = response.choices[0].message.content.strip()
+                st.session_state["messages"].append({"role": "assistant", "content": ai_reply})
+                st.markdown(ai_reply)
+                st.rerun()
+            except Exception as e:
+                st.error(f"⚠️ Chat error: {e}")
+
+st.markdown("---")
 
 # -------------------------
 # Main Assessment Form
