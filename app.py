@@ -320,17 +320,6 @@ try:
 except:
     st.markdown('<h1 style="text-align: center; color: #1f2937; font-size: 2.5rem; font-weight: 600; margin: 1rem 0;">❤️ HeartAlert</h1>', unsafe_allow_html=True)
 
-# Service description
-st.markdown("""
-<div style='text-align: center; max-width: 800px; margin: 1.5rem auto; padding: 1.5rem; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;'>
-    <h2 style='color: #1f2937; font-size: 1.5rem; font-weight: 600; margin-bottom: 0.8rem;'>AI-Powered Heart Disease Risk Assessment</h2>
-    <p style='color: #6b7280; font-size: 1rem; line-height: 1.6; margin-bottom: 0.5rem;'>
-        Get instant insights into your heart health with our advanced machine learning technology. 
-        Our AI analyzes your vital signs and medical data to provide personalized risk assessment and recommendations.
-    </p>
-  
-</div>
-""", unsafe_allow_html=True)
 
 # Service description
 st.markdown("""
