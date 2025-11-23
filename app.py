@@ -411,6 +411,8 @@ with st.expander("📌 Quick Questions", expanded=False):
                         max_tokens=500
                     )
                     ai_reply = response.choices[0].message.content.strip()
+                    # Remove markdown symbols
+                    ai_reply = ai_reply.replace('**', '').replace('*', '')
                     st.session_state["messages"].append({"role": "assistant", "content": ai_reply})
                 except Exception as e:
                     st.session_state["messages"].append({"role": "assistant", "content": f"Sorry, I encountered an error: {e}"})
@@ -451,6 +453,8 @@ if user_input := st.chat_input("Ask me anything about heart health..."):
                     max_tokens=500
                 )
                 ai_reply = response.choices[0].message.content.strip()
+                # Remove markdown symbols
+                ai_reply = ai_reply.replace('**', '').replace('*', '')
                 st.session_state["messages"].append({"role": "assistant", "content": ai_reply})
                 st.markdown(ai_reply)
                 st.rerun()
@@ -619,7 +623,7 @@ if analyze_btn:
                     response = client.chat.completions.create(
                         model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
                         messages=[
-                            {"role": "system", "content": "You are HeartAlert AI. Provide clear, well-structured health recommendations. Use simple numbered sections without markdown symbols."},
+                            {"role": "system", "content": "You are HeartAlert AI. Provide clear, well-structured health recommendations. Use simple numbered sections without markdown symbols like asterisks or double asterisks. Write in plain text with clear formatting."},
                             {"role": "user", "content": prompt}
                         ],
                         temperature=0.7,
