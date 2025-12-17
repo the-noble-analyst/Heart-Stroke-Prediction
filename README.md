@@ -137,19 +137,49 @@ Results are delivered in seconds, not days.
 
 ## 📁 Repository Structure
 
+![Repository Structure](HeartProjectLogo.png)
+
 ```
 Heart-Stroke-Prediction/
 │
 ├── app.py
-├── model/
-│   └── trained_model.pkl
-├── data/
-│   └── heart_disease.csv
-├── reports/
-│   └── sample_report.pdf
+├── HeartProjectLogo.png
+├── HeartdiseaseFinal.ipynb
+├── KNN_heart.pkl
+├── README.md
+├── columns.pkl
+├── heart.csv
 ├── requirements.txt
-└── README.md
+└── scaler.pkl
 ```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.8+
+- pip
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/the-noble-analyst/Heart-Stroke-Prediction.git
+cd Heart-Stroke-Prediction
+```
+
+2. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+3. Run the application
+```bash
+streamlit run app.py
+```
+
+4. Open your browser and navigate to the local URL (typically `http://localhost:8501`)
 
 ---
 
@@ -183,10 +213,29 @@ If it helps even one person catch a problem early, it's worth it.
 
 ---
 
+## ✅ Key Takeaway
+
+This project demonstrates how machine learning, conversational AI, and product thinking can come together to create a real, human-centered healthcare solution.
+
+---
+
 ## 🔗 Links
 
 - **GitHub Repository**: [https://github.com/the-noble-analyst/Heart-Stroke-Prediction](https://github.com/the-noble-analyst/Heart-Stroke-Prediction)
 - **Live Application**: [https://heart-stroke-prediction-nabeels.streamlit.app/](https://heart-stroke-prediction-nabeels.streamlit.app/)
+
+
+---
+
+## 🔮 Future Enhancements
+
+- Integration with wearable health devices
+- Multi-language support
+- Mobile application version
+- Enhanced visualization of risk factors
+- Historical tracking for registered users
+- Integration with electronic health records (EHR)
+- Advanced risk factor analysis with trend prediction
 
 ---
 
@@ -194,17 +243,32 @@ If it helps even one person catch a problem early, it's worth it.
 
 Contributions, issues, and feature requests are welcome! 
 
+
 ## 👤 Author
 
-**Nabeel Siddiqui**
+**Nabeel**
 - GitHub: [@the-noble-analyst](https://github.com/the-noble-analyst)
 - Project Link: [Heart Stroke Prediction](https://github.com/the-noble-analyst/Heart-Stroke-Prediction)
 
 ---
 
-⭐️ If you found this project helpful, please consider giving it a star!
+## 🙏 Acknowledgments
+
+- Dataset source: [Add dataset source]
+- Together AI for conversational AI capabilities
+- Streamlit for the web framework
+- The open-source community for various ML libraries
 
 ---
-- Mobile application version
-- Enhanced visualization of risk factors
-- Historical tracking for registered users
+
+## 📞 Support
+
+If you have any questions or need help with the project, please open an issue or reach out through wmail : nabeelsiddiqui468@gmail.com
+
+---
+
+⭐️ **If you found this project helpful, please consider giving it a star!**
+
+---
+
+*Built with ❤️ for better health awareness*
