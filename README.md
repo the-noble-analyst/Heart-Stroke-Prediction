@@ -252,15 +252,6 @@ Contributions, issues, and feature requests are welcome!
 
 ---
 
-## 🙏 Acknowledgments
-
-- Dataset source: [Add dataset source]
-- Together AI for conversational AI capabilities
-- Streamlit for the web framework
-- The open-source community for various ML libraries
-
----
-
 ## 📞 Support
 
 If you have any questions or need help with the project, please open an issue or reach out through wmail : nabeelsiddiqui468@gmail.com
